@@ -19,6 +19,11 @@ public class HabilidadeController {
     @Autowired
     private HabilidadeRepository repository;
 
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/habilidade";
+    }
+
     @GetMapping("/novo")
     public ModelAndView novo() {
         return new ModelAndView("formulario");
