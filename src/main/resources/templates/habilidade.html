@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Habilidades</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #e8eef3;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f4667, #2a6979);
+            color: #fff;
+            text-align: center;
+            padding: 25px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .novo {
+            display: inline-block;
+            background-color: #1b5f89;
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 25px;
+            transition: background 0.25s;
+        }
+
+        .novo:hover {
+            background-color: #2a7cad;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background-color: #1b5f89;
+            color: #fff;
+            padding: 14px;
+            font-size: 15px;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #dce2e8;
+            white-space: normal;
+            word-wrap: break-word;
+            max-width: 260px;
+        }
+
+        tr:hover {
+            background-color: #f3f8fb;
+        }
+
+        .acoes {
+            white-space: nowrap;
+            width: 140px;
+        }
+
+        .acoes a {
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-right: 6px;
+            transition: background 0.25s;
+            font-size: 14px;
+        }
+
+        .editar {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .editar:hover {
+            background-color: #449d48;
+        }
+
+        .excluir {
+            background-color: #e53935;
+            color: white;
+        }
+
+        .excluir:hover {
+            background-color: #cc2e2b;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Lista de Habilidades</h1>
+</header>
+
+<main>
+    <a href="/habilidade/novo" class="novo">+ Nova Habilidade</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Código</th>
+            <th>Habilidade</th>
+            <th>Categoria</th>
+            <th>Nível Atual</th>
+            <th>Meta</th>
+            <th>Funcionário</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="habilidade : ${habilidades}">
+            <td th:text="${habilidade.codigo}"></td>
+            <td th:text="${habilidade.habilidade}"></td>
+            <td th:text="${habilidade.categoria}"></td>
+            <td th:text="${habilidade.nivelAtual}"></td>
+            <td th:text="${habilidade.meta}"></td>
+            <td th:text="${habilidade.funcionario}"></td>
+            <td th:text="${habilidade.status}"></td>
+
+            <td class="acoes">
+                <a th:href="@{/habilidade/editar/{codigo}(codigo=${habilidade.codigo})}" class="editar">Editar</a>
+                <a th:href="@{/habilidade/excluir/{codigo}(codigo=${habilidade.codigo})}"
+                   class="excluir"
+                   onclick="return confirm('Tem certeza que deseja excluir esta habilidade?');">
+                    Excluir
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+</body>
+</html>
