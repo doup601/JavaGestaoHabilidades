@@ -100,27 +100,27 @@
 
         <label for="habilidade">Nome da Habilidade</label>
         <input type="text" id="habilidade" name="habilidade"
-               th:value="${acao} != null ? ${habilidade.habilidade}" required>
+               th:value="${acao != null} ? ${habilidade.habilidade} : ''" required>
 
         <label for="categoria">Categoria</label>
         <input type="text" id="categoria" name="categoria"
-               th:value="${acao} != null ? ${habilidade.categoria}" required>
+               th:value="${acao != null} ? ${habilidade.categoria} : ''" required>
 
         <label for="nivelAtual">Nível Atual</label>
         <input type="text" id="nivelAtual" name="nivelAtual"
-               th:value="${acao} != null ? ${habilidade.nivelAtual}" required>
+               th:value="${acao != null} ? ${habilidade.nivelAtual} : ''" required>
 
         <label for="meta">Meta</label>
         <input type="text" id="meta" name="meta"
-               th:value="${acao} != null ? ${habilidade.meta}" required>
+               th:value="${acao != null} ? ${habilidade.meta} : ''" required>
 
         <label for="funcionario">Funcionário</label>
         <input type="text" id="funcionario" name="funcionario"
-               th:value="${acao} != null ? ${habilidade.funcionario}" required>
+               th:value="${acao != null} ? ${habilidade.funcionario} : ''" required>
 
         <label for="status">Status</label>
         <input type="text" id="status" name="status"
-               th:value="${acao} != null ? ${habilidade.status}" required>
+               th:value="${acao != null} ? ${habilidade.status} : ''" required>
 
         <button type="submit">Salvar</button>
     </form>

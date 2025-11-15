@@ -26,7 +26,10 @@ public class HabilidadeController {
 
     @GetMapping("/novo")
     public ModelAndView novo() {
-        return new ModelAndView("formulario");
+        ModelAndView mv = new ModelAndView("formulario");
+        mv.addObject("habilidade", new Habilidade());
+        mv.addObject("acao", "/habilidade");
+        return mv;
     }
 
     @PostMapping
@@ -56,21 +59,75 @@ public class HabilidadeController {
         return mv;
     }
 
+    @PostMapping("/atualizar/{codigo}")
+    public ModelAndView atualizar(@PathVariable Long codigo,
+                                  @Valid HabilidadeDTO dto,
+                                  BindingResult result) {
+
+        if (result.hasErrors()) {
+            return new ModelAndView("redirect:/habilidade");
+        }
+
+        Habilidade existente = repository.findByCodigo(codigo);
+        if (existente == null) {
+            return new ModelAndView("redirect:/habilidade");
+        }
+
+        existente.setHabilidade(dto.habilidade());
+        existente.setCategoria(dto.categoria());
+        existente.setNivelAtual(dto.nivelAtual());
+        existente.setMeta(dto.meta());
+        existente.setFuncionario(dto.funcionario());
+        existente.setStatus(dto.status());
+
+        repository.save(existente);
+        return new ModelAndView("redirect:/habilidade");
+    }
+
     @GetMapping("/excluir/{codigo}")
     public ModelAndView excluir(@PathVariable Long codigo) {
         repository.deleteById(codigo);
         return new ModelAndView("redirect:/habilidade");
     }
 
-    @PostMapping("/atualizar/{codigo}")
-    public ModelAndView atualizar(@PathVariable Long codigo, @Valid HabilidadeDTO dto, BindingResult result) {
-        if (result.hasErrors()) {
-            return new ModelAndView("redirect:/habilidade");
-        }
-        Habilidade h = new Habilidade(dto);
-        h.setCodigo(codigo);
-        repository.save(h);
-        return new ModelAndView("redirect:/habilidade");
+
+
+    @GetMapping("/api")
+    public List<Habilidade> listarApi() {
+        return repository.findAll();
     }
 
+
+    @GetMapping("/api/{codigo}")
+    public Habilidade buscarPorId(@PathVariable Long codigo) {
+        return repository.findByCodigo(codigo);
+    }
+
+
+    @PostMapping("/api")
+    public Habilidade criarApi(@RequestBody @Valid HabilidadeDTO dto) {
+        return repository.save(new Habilidade(dto));
+    }
+
+    @PutMapping("/api/{codigo}")
+    public Habilidade atualizarApi(@PathVariable Long codigo,
+                                   @RequestBody @Valid HabilidadeDTO dto) {
+
+        Habilidade existente = repository.findByCodigo(codigo);
+        if (existente == null) return null;
+
+        existente.setHabilidade(dto.habilidade());
+        existente.setCategoria(dto.categoria());
+        existente.setNivelAtual(dto.nivelAtual());
+        existente.setMeta(dto.meta());
+        existente.setFuncionario(dto.funcionario());
+        existente.setStatus(dto.status());
+
+        return repository.save(existente);
+    }
+
+    @DeleteMapping("/api/{codigo}")
+    public void excluirApi(@PathVariable Long codigo) {
+        repository.deleteById(codigo);
+    }
 }
